@@ -29,6 +29,7 @@ class ScreenRecorder(private val context: Context) {
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
             setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
             setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT)
+            setVideoSize(size.width, size.height)
             setOutputFile(output)
         }
         recorder.prepare()
