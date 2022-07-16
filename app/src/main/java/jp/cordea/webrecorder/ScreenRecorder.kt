@@ -8,10 +8,7 @@ import android.media.projection.MediaProjection
 import android.util.Size
 import java.io.FileDescriptor
 
-class ScreenRecorder(
-    private val context: Context,
-    private val projection: MediaProjection
-) {
+class ScreenRecorder(private val context: Context) {
     companion object {
         private const val DISPLAY_NAME = "display"
     }
@@ -22,6 +19,7 @@ class ScreenRecorder(
     val recording get() = recorder != null
 
     fun start(
+        projection: MediaProjection,
         output: FileDescriptor,
         size: Size
     ) {
