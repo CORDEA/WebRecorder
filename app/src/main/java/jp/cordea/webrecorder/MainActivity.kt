@@ -73,5 +73,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         screenRecorder.stop()
         mediaProjection?.stop()
         fileDescriptor?.close()
+        screenRecorder.release()
     }
 }

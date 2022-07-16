@@ -16,13 +16,18 @@ class ScreenRecorder(private val context: Context) {
     private var virtualDisplay: VirtualDisplay? = null
     private var recorder: MediaRecorder? = null
 
-    val recording get() = recorder != null
+    var recording = false
+        private set
 
     fun start(
         projection: MediaProjection,
         output: FileDescriptor,
         size: Size
     ) {
+        if (recording) {
+            return
+        }
+        recording = true
         val recorder = MediaRecorder(context).apply {
             setAudioSource(MediaRecorder.AudioSource.DEFAULT)
             setVideoSource(MediaRecorder.VideoSource.SURFACE)
@@ -49,8 +54,11 @@ class ScreenRecorder(private val context: Context) {
 
     fun stop() {
         recorder?.stop()
+        recording = false
+    }
+
+    fun release() {
+        recorder?.release()
         virtualDisplay?.release()
-        recorder = null
-        virtualDisplay = null
     }
 }
