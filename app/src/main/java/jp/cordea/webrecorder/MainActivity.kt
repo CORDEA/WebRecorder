@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.util.Size
 import android.view.View
 import android.view.WindowManager
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
 import androidx.lifecycle.lifecycleScope
@@ -17,7 +18,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity() {
     companion object {
         private const val OUTPUT_FILENAME = "video.mp4"
     }
@@ -31,12 +32,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
+        val viewModel by viewModels<MainViewModel>()
+        binding.viewModel = viewModel
         startForegroundService(Intent(this, Recorder::class.java))
-        binding.fab.setOnClickListener(this)
     }
 
-    override fun onClick(v: View?) {
+    private fun onClick() {
         if (screenRecorder.recording) {
             release()
             return
