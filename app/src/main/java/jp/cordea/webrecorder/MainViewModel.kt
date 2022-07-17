@@ -25,13 +25,17 @@ class MainViewModel @Inject constructor(
     private val _event = MutableSharedFlow<MainEvent>()
     val event = _event.asSharedFlow()
 
+    val rawUrl = MutableLiveData("")
     val url = MutableLiveData("")
+    val isControlVisible = MutableLiveData(true)
+    val isWebViewVisible = MutableLiveData(false)
 
     private var file: ParcelFileDescriptor? = null
     private var mediaProjection: MediaProjection? = null
 
     fun onSubmitClicked() {
         if (screenRecorder.recording) {
+            // TODO
             screenRecorder.stop()
             mediaProjection?.stop()
             file?.close()
@@ -40,6 +44,7 @@ class MainViewModel @Inject constructor(
             screenRecorder.release()
             return
         }
+        url.value = rawUrl.value
         viewModelScope.launch { _event.emit(MainEvent.RequestMediaProjection) }
     }
 
@@ -48,6 +53,9 @@ class MainViewModel @Inject constructor(
         val file = addPublicVideoFileUseCase.execute(OUTPUT_FILENAME)
         this.mediaProjection = mediaProjection
         this.file = file
+
+        isControlVisible.value = false
+        isWebViewVisible.value = true
         screenRecorder.start(
             mediaProjection,
             file.fileDescriptor,

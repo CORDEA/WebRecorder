@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val viewModel by viewModels<MainViewModel>()
+        binding.lifecycleOwner = this
         binding.viewModel = viewModel
         startForegroundService(Intent(this, Recorder::class.java))
         viewModel.event

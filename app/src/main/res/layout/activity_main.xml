@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="jp.cordea.webrecorder.MainViewModel" />
@@ -21,6 +23,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/main_url_hint"
+            android:visibility="@{viewModel.isControlVisible ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -28,7 +31,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={viewModel.url}" />
+                android:text="@={viewModel.rawUrl}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -37,9 +40,19 @@
             android:layout_marginTop="16dp"
             android:onClick="@{() -> viewModel.onSubmitClicked()}"
             android:text="@string/main_button"
+            android:visibility="@{viewModel.isControlVisible ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/url" />
 
+        <WebView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{viewModel.isWebViewVisible ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:loadUrl="@{viewModel.url}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
