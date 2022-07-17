@@ -23,10 +23,10 @@ class MainViewModel @Inject constructor() : ViewModel() {
         url.value = rawUrl.value
         isControlVisible.value = false
         isWebViewVisible.value = true
-        viewModelScope.launch { _event.emit(MainEvent.RequestMediaProjection) }
+        viewModelScope.launch { _event.emit(MainEvent.StartRecording) }
     }
 }
 
 sealed class MainEvent {
-    object RequestMediaProjection : MainEvent()
+    object StartRecording : MainEvent()
 }

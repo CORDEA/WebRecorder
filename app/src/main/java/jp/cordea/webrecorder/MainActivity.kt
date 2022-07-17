@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.event
             .transform {
                 when (it) {
-                    MainEvent.RequestMediaProjection ->
+                    MainEvent.StartRecording ->
                         emit(mediaProjectionRequest.request())
                 }
             }
