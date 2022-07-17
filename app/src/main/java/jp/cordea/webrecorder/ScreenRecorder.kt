@@ -6,9 +6,13 @@ import android.hardware.display.VirtualDisplay
 import android.media.MediaRecorder
 import android.media.projection.MediaProjection
 import android.util.Size
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.FileDescriptor
+import javax.inject.Inject
 
-class ScreenRecorder(private val context: Context) {
+class ScreenRecorder @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
     companion object {
         private const val DISPLAY_NAME = "display"
     }
