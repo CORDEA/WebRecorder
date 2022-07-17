@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         val viewModel by viewModels<MainViewModel>()
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        startForegroundService(Intent(this, Recorder::class.java))
         viewModel.event
             .transform {
                 when (it) {
@@ -30,9 +29,16 @@ class MainActivity : AppCompatActivity() {
                         emit(mediaProjectionRequest.request())
                 }
             }
-            .onEach {
-                viewModel.onMediaProjectionObtained(it)
+            .onEach { intent ->
+                startForegroundService(Intent(this, Recorder::class.java).also {
+                    it.action = Recorder.ACTION_START
+                    it.putExtra(Recorder.INTENT_KEY, intent)
+                })
             }
             .launchIn(lifecycleScope)
+
+        startForegroundService(Intent(this, Recorder::class.java).also {
+            it.action = Recorder.ACTION_INIT
+        })
     }
 }

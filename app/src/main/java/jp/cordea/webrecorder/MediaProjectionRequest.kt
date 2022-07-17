@@ -1,6 +1,6 @@
 package jp.cordea.webrecorder
 
-import android.media.projection.MediaProjection
+import android.content.Intent
 import android.media.projection.MediaProjectionManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +11,7 @@ import kotlin.coroutines.resume
 
 class MediaProjectionRequest(private val activity: AppCompatActivity) {
     private lateinit var manager: MediaProjectionManager
-    private lateinit var continuation: CancellableContinuation<MediaProjection>
+    private lateinit var continuation: CancellableContinuation<Intent>
 
     private val launcher =
         activity.registerForActivityResult(
@@ -22,9 +22,7 @@ class MediaProjectionRequest(private val activity: AppCompatActivity) {
                 continuation.cancel()
                 return@registerForActivityResult
             }
-            manager.getMediaProjection(result.resultCode, data)?.let {
-                continuation.resume(it)
-            } ?: continuation.cancel()
+            continuation.resume(data)
         }
 
     suspend fun request() = suspendCancellableCoroutine {

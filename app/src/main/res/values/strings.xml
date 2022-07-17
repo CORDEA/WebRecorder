@@ -3,4 +3,6 @@
 
     <string name="main_url_hint">Url</string>
     <string name="main_button">Submit</string>
+    <string name="recorder_content">Recording…</string>
+    <string name="recorder_stop_action">Stop</string>
 </resources>
